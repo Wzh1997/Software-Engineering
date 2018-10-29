@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<!--
+* CoreUI - Free Bootstrap Admin Template
+* @version v2.0.0
+* @link https://coreui.io
+* Copyright (c) 2018 creativeLabs Łukasz Holeczek
+* Licensed under MIT (https://coreui.io/license)
+-->
+
+<html lang="en">
+  <head>
+    <base href="./">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <meta name="description" content="CoreUI - Open Source Bootstrap Admin Template">
+    <meta name="author" content="Łukasz Holeczek">
+    <meta name="keyword" content="Bootstrap,Admin,Template,Open,Source,jQuery,CSS,HTML,RWD,Dashboard">
+    <title>CoreUI Free Bootstrap Admin Template</title>
+    <!-- Icons-->
+    <link href="vendors/@coreui/icons/css/coreui-icons.min.css" rel="stylesheet">
+    <link href="vendors/flag-icon-css/css/flag-icon.min.css" rel="stylesheet">
+    <link href="vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="vendors/simple-line-icons/css/simple-line-icons.css" rel="stylesheet">
+    <!-- Main styles for this application-->
+    <link href="css/style.css" rel="stylesheet">
+    <link href="vendors/pace-progress/css/pace.min.css" rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+  <body class="app header-fixed sidebar-fixed aside-menu-fixed ">
+    <header class="app-header navbar">
+      <p class="text-center"><h1>四则运算</h1></p>
+    </header>
+
+    <div id="app" class="app-body">
+      <main class="main ">
+        <!-- Breadcrumb-->
+
+            <div class="col-lg-6 container">
+          <div class="card ">
+            <div class="card-header">
+              <i class="fa fa-align-justify"></i> Simple Table</div>
+            <div class="card-body">
+              <div>
+
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">
+                      输入题目数量：
+                    </span>
+                  </div>
+                  <input id="Number" class="form-control" type="text" placeholder="数量">
+                  <button class="btn btn-primary px-4" type="button" onclick="getNumber()">确定</button>
+                </div>
+
+              </div>
+              <table class="table table-responsive-sm ">
+                <thead >
+                <tr>
+                  <th>题目</th>
+                  <th>输入答案</th>
+
+
+                </tr>
+                </thead>
+                <tbody v-for="(item,index) in list" >
+                <tr>
+                  <td>{{item.topics}}</td>
+                  <td><input class="form-control" type="text" placeholder="输入答案" ></td>
+
+                </tr>
+                </tbody>
+
+              </table>
+
+              <button class="btn btn-primary px-4" type="button" onclick="Submission()">提交答案</button>
+              <button class="btn btn-primary px-4" type="button" data-toggle="modal" data-target="#exampleModalCenter">查看答案</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="container-fluid">
+          <div class="animated fadeIn">
+
+          </div>
+        </div>
+      </main>
+    </div>
+    <footer class="app-footer">
+      <div>
+        <a href="https://coreui.io">CoreUI</a>
+        <span>&copy; 2018 creativeLabs.</span>
+      </div>
+      <div class="ml-auto">
+        <span>Powered by</span>
+        <a href="https://coreui.io">CoreUI</a>
+      </div>
+    </footer>
+    <!-- CoreUI and necessary plugins-->
+    <script src="vendors/jquery/js/jquery.min.js"></script>
+    <script src="vendors/popper.js/js/popper.min.js"></script>
+    <script src="vendors/bootstrap/js/bootstrap.min.js"></script>
+    <script src="vendors/pace-progress/js/pace.min.js"></script>
+    <script src="vendors/perfect-scrollbar/js/perfect-scrollbar.min.js"></script>
+    <script src="vendors/@coreui/coreui/js/coreui.min.js"></script>
+
+    <div id="exampleModalCenter" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" style="display: none;" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalCenterTitle">答案</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div id="app1" class="modal-body">
+
+            <div class="bd-example">
+              <table class="table table-hover">
+                <thead>
+                <tr>
+                  <th scope="col">题目·</th>
+                  <th scope="col">对/错</th>
+                  <th scope="col">你的答案</th>
+                  <th scope="col">正确答案</th>
+                </tr>
+                </thead>
+                <tbody v-for="(item,index) in list">
+                <tr>
+                  <td>{{item.topics}}</td>
+                  <td>{{item.TorF}}</td>
+                  <td>{{item.userAnswer}}</td>
+                  <td>{{item.rightAnswer}}</td>
+                </tr>
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="modal-footer">
+
+            <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+    <script>
+
+
+        var content=[];
+        var topics=[];
+        var userAnswer=[];
+        var rightAnswer=[];
+        var TorF=[];
+
+        var app = new Vue({
+            el: '#app',
+            data: {
+                list:content,
+            },
+            methods:{
+                Submission:function () {
+
+                }
+            }
+
+        })
+
+        var app1 = new Vue({
+            el: '#app1',
+            data: {
+                list:content,
+                rightAnswer_list:rightAnswer,
+            },
+            methods:{
+                Submission:function () {
+
+                }
+            }
+
+        })
+
+      function putTopics(geshu) {
+
+          var fuhao=new Array();
+
+          fuhao[0]="+";
+          fuhao[1]="-";
+          fuhao[2]="*";
+          fuhao[3]="/";
+
+          var timu="";
+
+              for (var i=0;i<2*geshu-1;i++){
+                  if (i%2==0){
+                      timu= timu+Math.round(Math.random()*50);//将随机数转为字符串，存入字符串
+                  }else {
+                      timu=timu+fuhao[Math.round(Math.random()*3)];//将符号存入字符串
+                  }
+              }
+
+          return timu;
+      }
+      function getNumber() {
+
+          var topicsNumber=$("#Number").val();
+
+          this.content.splice(0,this.content.length);
+          for (var i=0;i<topicsNumber;i++){
+              this.content.push({topics:'',userAnswer:'',ringtAnswer:'',TorF:''});
+          }
+
+          for (var i=1;i<$(".form-control").length;i++){
+              $(".form-control").eq(i).val(null);
+          }
+
+          this.topics.splice(0,this.topics.length);
+          /*alert(topicsNumber);*/
+          for (var i=0;i<topicsNumber;i++){
+              var timu=putTopics_kuohao();
+              this.topics.push(timu);
+          }
+          for (var i=0;i<this.topics.length;i++){
+              this.content[i].topics=this.topics[i];
+          }
+      }
+      function putTopics_kuohao(){
+
+          var fuhao=new Array();
+
+          fuhao[0]="+";
+          fuhao[1]="-";
+          fuhao[2]="*";
+          fuhao[3]="/";
+
+
+
+          var shu=putTopics(Math.round(Math.random()+1));
+          var fu=fuhao[Math.round(Math.random()*3)];
+          if (shu!=""&&fu!="") {
+              var timu1=shu+fu;
+          }else {
+              timu1="";
+          }
+          shu=putTopics(Math.round(Math.random()*2+2));
+          fu=fuhao[Math.round(Math.random()*3)];
+          if (shu!=""&&fu!=""){
+              var timu2=fu+shu;
+          } else {
+              timu2="";
+          }
+
+          var timu=putTopics(Math.round(Math.random()*2+2));
+          timu=timu1+"("+timu+")"+timu2;
+
+          return timu;
+      }
+
+
+      function Submission() {
+
+
+
+            this.userAnswer.splice(0,this.userAnswer.length);
+            for (var i=1;i<$(".form-control").length;i++){
+                this.userAnswer.push($(".form-control").eq(i).val());
+            }
+            for (var i=0;i<this.userAnswer.length;i++) {
+                this.content[i].userAnswer=this.userAnswer[i];
+            }
+
+
+
+          this.rightAnswer.splice(0,this.rightAnswer.length);
+
+            this.rightAnswer=calculation_all(this.topics);
+          for (var i=0;i<this.rightAnswer.length;i++) {
+
+              this.content[i].rightAnswer=this.rightAnswer[i];
+          }
+
+          judge();
+
+
+          alert("提交成功！");
+          /*update_content();*/
+          /*for (var i=0;i<this.content.length;i++){
+
+              alert(this.content[i].topics);
+              alert(this.content[i].TorF);
+              alert(this.content[i].userAnswer);
+              alert(this.content[i].rightAnswer);
+          }*/
+
+      }
+
+      
+      function judge() {
+          for(var i=0;i<this.userAnswer.length;i++){
+              if (this.userAnswer[i]==this.rightAnswer[i]){
+                  this.TorF[i]=true;
+              }else {
+                  this.TorF[i]=false;
+              }
+          }
+          for (var i=0;i<this.TorF.length;i++) {
+              this.content[i].TorF=this.TorF[i];
+          }
+
+      }
+      function update_content() {
+          var content={topics:'',userAnswer:'',TorF:'',rightAnswer:''};
+          for (var i=0;i<this.topics.length;i++){
+
+
+              content.topics=this.topics[i];
+              content.userAnswer=this.userAnswer[i];
+              content.rightAnswer=this.rightAnswer[i];
+              content.TorF=this.TorF[i];
+              this.content.push(content);
+             /* this.$set(this.content[i].topics,i,this.topics[i]);
+              this.$set(this.content[i].userAnswer, i, this.userAnswer[i]);
+              this.$set(this.content[i].TorF, i, this.TorF[i]);
+              this.$set(this.content[i].rightAnswer, i, this.rightAnswer[i]);*/
+
+          }
+          
+
+      }
+
+
+
+
+
+      function calculation_all(topics) {
+            var answer=[];
+          for (var i=0;i<topics.length;i++){
+              answer.push(calculation_kuohao(topics[i]));
+          }
+
+          return answer;
+      }
+      function calculation_kuohao(topics) {
+          var star=-1;
+          var end=-1;
+          for (var i=0;i<topics.length;i++){
+              if (topics[i]=="("){
+                  star=i;
+              }
+              if (topics[i]==")"){
+                  end=i;
+              }
+          }
+          if (star!=-1&&end!=-1){
+              var str=topics.substring(star+1,end);
+              var index=calculation_one(str);
+              topics=topics.replace(/\((.+?)\)/g,index);
+          }
+
+          var answer=calculation_one(topics);
+
+          return answer;
+      }
+      function calculation_one(topics){
+          var shu=[];//用于存操作数的数组
+          var fu=[];//用于存操作符的数组
+          var temp=topics.split(/[-*/+]/);
+
+          for (var i=0;i<temp.length;i++){
+              shu.push(parseInt(temp[i]));
+          }
+
+          for (var i=0;i<topics.length;i++){
+              if (topics[i]=topics[i] == "+"||topics[i] == "-"||topics[i] == "*"||topics[i] == "/") {
+                 fu.push(topics[i]);
+              }
+          }
+
+          for (var i=0;i<fu.length;i++){
+              if (fu[i]=="*"){
+                  shu[i]=shu[i]*shu[i+1];
+                  shu.splice(i+1,1);
+                  fu.splice(i,1);
+                  i--;
+              }
+              else if (fu[i]=="/"){
+                  shu[i]=shu[i]/shu[i+1];
+                  shu.splice(i+1,1);
+                  fu.splice(i,1);
+                  i--;
+              }
+
+          }
+
+
+          while(fu.length!=0){
+              var i=0;
+              if (fu[i]=="+"){
+                  shu[i]=shu[i]+shu[i+1];
+                  shu.splice(i+1,1);
+                  fu.splice(i,1);
+              }
+              else if (fu[i]=="-"){
+                  shu[i]=shu[i]-shu[i+1];
+                  shu.splice(i+1,1);
+                  fu.splice(i,1);
+
+              }
+          }
+
+          return shu[0];
+      }
+
+
+    </script>
+  </body>
+</html>
